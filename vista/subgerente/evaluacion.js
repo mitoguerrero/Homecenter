@@ -1,24 +1,26 @@
  $(document).ready(function(){
-        cargarCategoria();
-        validarCampos();
-        cargarTipo();
+        cargarPeriodo();
         listar();
-        $("#txtfecha").datepicker({ changeMonth: true,
-          changeYear: true, dateFormat:'yy-mm-dd'});
-        $("#txtcolaborador").autocomplete({
-            source: "../../controlador/buscarColaborador.php", //el archivo que realiza la busqueda
+        validarCampos();
+        $("#buscar").autocomplete({
+            source: "../../controlador/buscarEvaluacion.php", //el archivo que realiza la busqueda
             minLength: 2, //le decimos que tenga al menos 2 caracteres para ejecutrar la busqueda
             select: f_seleccionar_registro, //funcion que se ejecuta cuando el usuario selecciona un registro
             focus: f_marcar_registro
         });
-        $("#frmincidencia").submit(function(e){
+        $("#frmevaluacion").submit(function(e){
                 e.preventDefault();
 
-                
-                var data =$("#frmincidencia").serializeArray();
+                var id=$("#idevaluacion").val();
+                if (id!=0) {
+                    ruta='../../controlador/editarEvaluacion.php';
+                }else{
+                    ruta='../../controlador/registrarEvaluacion.php';
+                }
+                var data =$("#frmevaluacion").serializeArray();
 
                 $.ajax({
-                    url: '../../controlador/registrarIncidencia.php',
+                    url: ruta,
                     type: 'post',
                     dataType: 'json',
                     data: data,
@@ -34,8 +36,8 @@
                     limpiarformulario();
                     setTimeout("borraralerta();", 5000);
                     listar();
-                    usuariopermanente=$("#idusuariopermanente").val();
-                    $("#idusuario").val(usuariopermanente);
+                    usuario=$("#idusuariopermanente").val();
+                    $("#idusuario").val(usuario);
                 })
                 .fail(function(){
                     // Fail message
@@ -47,18 +49,19 @@
                     limpiarformulario();
                     setTimeout("borraralerta();", 5000);
                     listar();
-                    usuariopermanente=$("#idusuariopermanente").val();
-                    $("#idusuario").val(usuariopermanente);
+                    usuario=$("#idusuariopermanente").val();
+                    $("#idusuario").val(usuario);
+
                 })
             });
       });
-        function borraralerta(){
+      function borraralerta(){
           $("#alertacierrate").alert('close');
-        }
-        function limpiarformulario(){
+      }
+      function limpiarformulario(){
           $(document).ready(function() {
 
-              $("#frmincidencia").find(':input').each(function() {
+              $("#frmevaluacion").find(':input').each(function() {
                   var elemento= this;
                   $('input[type=text]').each(function()
                   {
@@ -77,21 +80,16 @@
 
           });
          
-        }
-        function listar(){
-          $("#tablalistado").load("../../controlador/listarIncidencia.php", function(){
-            $("#table_id").dataTable();
-          });  
-        }
-      function cargarCategoria(){
+      }
+      function cargarPeriodo(){
           $.ajax({
-            url: "../../controlador/cargarCategoriaTodos.php",
+            url: "../../controlador/cargarPeriodo.php",
             type: "post",
             dataType: "json",
             success: function(DataJson){
               if(DataJson.state){
                 for(data in DataJson.retorno){
-                  $("#txtcategoria").append("<option value='"+DataJson.retorno[data].idcategoria+"'>"+DataJson.retorno[data].nombrecategoria+"</option>");
+                  $("#txtperiodo").append("<option value='"+DataJson.retorno[data].idperiodo+"'>"+DataJson.retorno[data].nombreperiodo+"</option>");
                 }
               }else{
                             
@@ -99,36 +97,46 @@
             }
           }); 
       }
-      function cargarTipo(){
-          $.ajax({
-            url: "../../controlador/cargarTipo.php",
-            type: "post",
-            dataType: "json",
-            success: function(DataJson){
-              if(DataJson.state){
-                for(data in DataJson.retorno){
-                  $("#txttipo").append("<option value='"+DataJson.retorno[data].idtipoincidencia+"'>"+DataJson.retorno[data].nombretipoincidencia+"</option>");
-                }
-              }else{
-                            
-              }                                                         
-            }
-          }); 
+      function listar(){
+          $("#tablalistado").load("../../controlador/listarEvaluacion.php", function(){
+            $("#table_id").dataTable();
+          });  
       }
       function f_seleccionar_registro(event, ui){
         var registro = ui.item.value;
-        $("#idcolaborador").val( registro.codigo);
-        $("#txtcolaborador").val( registro.nombre);
+        $("#idevaluacion").val( registro.codigo);
+        $("#txtnombre").val( registro.nombre);
+        $("#txtperiodo").val( registro.periodo);
         event.preventDefault();
       }
           
       function f_marcar_registro(event, ui){
         var registro = ui.item.value;
-        $("#txtcolaborador").val( registro.nombre);
+        $("#buscar").val( registro.nombre);
         event.preventDefault();
       }
-
+      function cambiarEstado(evaluacion,estado){
+        var parametro={
+          "id_evaluacion":evaluacion,
+          "id":estado,
+        };
+        $.ajax({
+            url: "../../controlador/editarEstadoEvaluacion.php",
+            type: "post",
+            dataType: "json",
+            data: parametro,
+            success: function(DataJson){
+              if(DataJson.state){              
+                alert("Correcto");
+                listar();
+              }else{
+                alert("incorrecto");
+                listar();   
+              }                                                              
+            }
+        }); 
+      }
       function validarCampos(){
-        $("#txtcolaborador").validCampoFranz("abcdefghijklmnñopqrstuvwxyz %%");
-         $("#txtdescripcion").validCampoFranz("1234567890abcdefghijklmnñopqrstuvwxyz _-#");        
+        $("#buscar").validCampoFranz("abcdefghijklmnñopqrstuvwxyz1234567890 %%");
+         $("#txtnombre").validCampoFranz("1234567890abcdefghijklmnñopqrstuvwxyz ");        
       }

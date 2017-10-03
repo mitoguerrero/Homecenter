@@ -239,6 +239,7 @@
     <script src='../../public/plugins/fastclick/fastclick.min.js'></script>
     <!-- AdminLTE App -->
     <script src="../../public/dist/js/app.min.js" type="text/javascript"></script>
+    <script src="../../public/plugins/jQuery/validator.js"></script>
     <script src="categoria.js" type="text/javascript"></script>
   </body>
 </html>

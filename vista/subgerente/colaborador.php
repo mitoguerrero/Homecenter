@@ -292,6 +292,7 @@
     <script src="../../public/dist/js/app.min.js" type="text/javascript"></script>
     <script src="../../public/dist/js/numeric.js" type="text/javascript"></script>
     <script src="../../public/plugins/jQuery/validator.js"></script>
+    <script src="../../public/plugins/jQuery/validator.js"></script>
     <script src="colaborador.js" type="text/javascript"></script>
   </body>
 </html>

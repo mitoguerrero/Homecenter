@@ -1,6 +1,7 @@
 $(document).ready(function(){
           $("#estado").hide();
           listar();
+          validarCampos();
           $("#buscar").autocomplete({
             source: "../../controlador/buscarCategoria.php", //el archivo que realiza la busqueda
             minLength: 2, //le decimos que tenga al menos 2 caracteres para ejecutrar la busqueda
@@ -113,4 +114,8 @@ $(document).ready(function(){
               }                                                              
             }
         }); 
+      }
+      function validarCampos(){
+        $("#txtnombre").validCampoFranz("abcdefghijklmnñopqrstuvwxyz ");
+         $("#buscar").validCampoFranz("abcdefghijklmnñopqrstuvwxyz%% ");        
       }

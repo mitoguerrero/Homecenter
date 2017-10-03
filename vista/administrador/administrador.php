@@ -125,8 +125,6 @@
         <section class="content">
           <input type="hidden" name="txttrabajador" id="txttrabajador" value="<?php echo $idtrabajador; ?>">
           <div class="callout callout-warning">
-            <h4>Tip!</h4>
-            <p>Add the layout-boxed class to the body tag to get this layout. The boxed layout is helpful when working on large screens because it prevents the site from stretching very wide.</p>
           </div>
 
         </section><!-- /.content -->
@@ -136,7 +134,7 @@
         <div class="pull-right hidden-xs">
           
         </div>
-        <strong>Homecenter 2015</a>.</strong> Todos los derechos reservados.
+        <strong>Homecenter 2017</a>.</strong> Todos los derechos reservados.
       </footer>
     </div><!-- ./wrapper -->
 

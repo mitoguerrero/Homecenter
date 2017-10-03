@@ -5,7 +5,7 @@
 			require_once 'clsConexion.php';
 			$objConexion = new Conexion();
 			$sql="select idusuario,idtipousuario,nombre,apellido,correo,clave,clave_plana from usuario
-			where correo='".$correo."'";
+			where correo='".$correo."' and clave_plana='".$clave."'";
 			$resultado=$objConexion->consultar($sql)->fetch();
 
 			if($resultado['clave']==md5($clave)){

@@ -1,6 +1,7 @@
  $(document).ready(function(){
         cargarCategoria();
         listar();
+        validarCampos();
         $("#frmpregunta").submit(function(e){
                 e.preventDefault();
 
@@ -115,3 +116,7 @@
             }
           }); 
         }
+        function validarCampos(){
+        $("#txtpregunta").validCampoFranz("abcdefghijklmnñopqrstuvwxyz. ?");
+                
+      }
